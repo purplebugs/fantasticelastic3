@@ -1,0 +1,14 @@
+{
+  "name": "standalone_node_app",
+  "version": "1.0.0",
+  "description": "A standalone node app that keeps a process alive and outputs statuses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
