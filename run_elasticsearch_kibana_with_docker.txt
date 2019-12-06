@@ -1,21 +1,28 @@
 # Start Elasticsearch and Kibana with Docker in a quick and unsafe way
 # WARNING: This way will result in losing all data when stopping the containers
 
+These are bash commands to be run in the command line console
+
+
 ## Download and run Elasticsearch in a container
 
 docker run -d --rm --name es1 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.0
+
 
 ## Download and run Kibana in a container
 
 docker run -d --rm --name kb1 --link es1:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.5.0
 
 
-## Check Elasticsearch and Kibana are up and running
+## Check both containers are running
 
 docker ps
 
 
-## Stop the containers and remove all data
+## Check Elasticsearch and Kibana are up and running by navigating to http://localhost:9200/ and http://localhost:5601/
 
-docker stop es1
+
+## Stop both containers and remove all data
+
 docker stop kb1
+docker stop es1
