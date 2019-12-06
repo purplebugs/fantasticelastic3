@@ -1,0 +1,16 @@
+# Start elasticsearch and kibana with docker in a quick and unsafe way
+# WARNING: This way will result in losing all data when stopping the containers
+
+docker run -d --rm --name elasticsearch_1 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+docker run -d --rm --name kibana_1 --link elasticsearch_1:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.2.0
+
+
+# Check elasticsearch and kibana are up and running
+
+docker ps
+
+
+# Stop the containers and remove all data
+
+docker stop elasticsearch_1
+docker stop kibana_1
