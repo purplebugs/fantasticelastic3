@@ -1,0 +1,15 @@
+{
+  "name": "data-scraper",
+  "version": "1.0.0",
+  "description": "Scrape Eurovision Winners from wikipedia",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "jsdom": "^15.2.1"
+  }
+}
