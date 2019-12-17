@@ -9,6 +9,12 @@ const winners = [
 
 ]
 
+const handle1969 = function(elements){
+  console.log('Need to handle 1969 differently since there were 4 winners. TODO')
+  //console.log(elements[0].innerHTML)
+  return {name:"foo"}
+}
+
 fetch(url)
   .then(response => {
     return response.text() // Get plain text from the response
@@ -24,26 +30,47 @@ fetch(url)
 
     // TODO ?? get 0th row for storing headings into object properties
     
-    // If only specify .wikitable this picks up more than one table. TODO scope to only the first table, select 0th .wikitable ?
+    // If only specify .wikitable this picks up more than one table
+    // Get the table
     const winnersTableRows = document.querySelectorAll(".wikitable.sortable.plainrowheaders > tbody > tr")
-    console.log('WINNERS TABLE  - Row[1]:', winnersTableRows[1].innerHTML) // Start from row 1 as row 0 is header
-    let counter = 0
+
+    // Get the rows
     winnersTableRows.forEach(function(row) {
-      counter++
-      console.log(counter, '***************************')
-      console.log(row.innerHTML)
-      
-        const winnersTableRow = row.querySelectorAll("th a, td")
-        console.log(`------- Row ${counter} contains ${winnersTableRow.length} items -------`)
 
-        winnersTableRow.forEach(function(itemInRow) {
-          console.log(itemInRow.innerHTML)
+        //const winnersTableRow = row.querySelectorAll("th a, td, td:nth-child(3) > a, td")
 
-          // Work in progress
-        })
-    });
+        // Get year from current row
+        
+        const yearElement = row.querySelectorAll("th a")[0]
+        const restOfElements = row.querySelectorAll("td")
+        let thisYearsWinner
 
-    console.log('Total winnersTableRows:', counter) // 69
+        if (yearElement) {
+          const year = yearElement.textContent
+          switch (year) {
+            case "1969" :  
+            thisYearsWinner = handle1969(restOfElements)
+            winners.push({year: thisYearsWinner})
+              break
+            default:
+
+            if (restOfElements[0] && restOfElements[1] && restOfElements[2]) {
+
+              winners.push({
+                year: year,
+                date: restOfElements[0].innerHTML,
+                hostCity: restOfElements[1].innerHTML,
+                winner: restOfElements[2].innerHTML
+
+                // Work in progress
+              })
+            }
+          }
+        }
+
+    })
+
+    // console.log('Total winnersTableRows:', rowCounter) // 69
 
     // Try accessing the table
     // #mw-content-text > div > table.wikitable.sortable.plainrowheaders.jquery-tablesorter > tbody > tr:nth-child(1) > th
@@ -52,23 +79,23 @@ fetch(url)
     // const winnersTableRow = document.querySelectorAll(".wikitable > tbody > tr:nth-child(2)")
     // console.log('WINNERS TABLE  - Row[1]:', winnersTableRow[0].innerHTML)
 
-    const winnersTableYears = document.querySelectorAll(".wikitable > tbody > tr > th > a")
-    console.log('Number of Years: ', winnersTableYears.length)
-    winnersTableYears.forEach(function(row) {
-      const winner = {
-        year: row.innerHTML,
-        date: "",
-        hostCity: "",
-        winner: "",
-        song: "",
-        performer: "",
-        language: "",
-        points: "",
-        margin: "",
-        runnerUp: "",
-         }
-      winners.push(winner)
-    })
+    // const winnersTableYears = document.querySelectorAll(".wikitable > tbody > tr > th > a")
+    // console.log('Number of Years: ', winnersTableYears.length)
+    // winnersTableYears.forEach(function(row) {
+      // const winner = {
+      //   year: row.innerHTML,
+      //   date: "",
+      //   hostCity: "",
+      //   winner: "",
+      //   song: "",
+      //   performer: "",
+      //   language: "",
+      //   points: "",
+      //   margin: "",
+      //   runnerUp: "",
+      //    }
+      // winners.push(winner)
+    // })
     
     console.log('Winners: ', winners)
 
