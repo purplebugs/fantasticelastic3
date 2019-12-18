@@ -39,20 +39,14 @@ fetch(url)
     return dom.window.document;
   })
   .then(document => {
-
-    // TODO ?? get 0th row for storing headings into object properties
     
-    // If only specify .wikitable this picks up more than one table
     // Get the table
-    const winnersTableRows = document.querySelectorAll(".wikitable.sortable.plainrowheaders > tbody > tr")
+    const winnersTableRows = document.querySelectorAll(".wikitable.sortable.plainrowheaders > tbody > tr") // If only specify .wikitable this picks up more than one table
 
     // Get the rows
     winnersTableRows.forEach(function(row) {
 
-        //const winnersTableRow = row.querySelectorAll("th a, td, td:nth-child(3) > a, td")
-
         // Get year from current row
-        
         const yearElement = row.querySelectorAll("th a")[0];
         const restOfElements = row.querySelectorAll("td");
         let thisYearsWinner;
@@ -75,12 +69,19 @@ fetch(url)
 
             default:
 
+            let language = ""
+
             if (restOfElements[0] && restOfElements[1] && restOfElements[2] && restOfElements[3]) { // Check none are undefined
               if (restOfElements[1].querySelectorAll("a")[1] &&
                     restOfElements[1].querySelectorAll("a")[1].innerHTML &&
                       restOfElements[2].querySelectorAll("a")[0].innerHTML &&
                         restOfElements[3].querySelectorAll("a")[0].innerHTML &&
                           restOfElements[4].querySelectorAll("a")[0].innerHTML) { // Check not undefined
+
+                // // Some table cells start directly with the language, some with a link to the language, some inside ""
+                // if (restOfElements[5]) {
+                //   language = restOfElements[5].innerHTML // TODO parse to get first instance of language by snipping "" and search after >
+                // } 
 
               winners.push({
                 year: year,
@@ -89,6 +90,7 @@ fetch(url)
                 winner: restOfElements[2].querySelectorAll("a")[0].innerHTML,
                 song: restOfElements[3].querySelectorAll("a")[0].innerHTML,
                 performer: restOfElements[4].querySelectorAll("a")[0].innerHTML,
+                // language: language,
 
                 // Work in progress
               })
@@ -98,33 +100,6 @@ fetch(url)
         }
 
     })
-
-    // console.log('Total winnersTableRows:', rowCounter) // 69
-
-    // Try accessing the table
-    // #mw-content-text > div > table.wikitable.sortable.plainrowheaders.jquery-tablesorter > tbody > tr:nth-child(1) > th
-
-    // This Prints out Switzerland - first row of competition, child(3) prints out next row etc
-    // const winnersTableRow = document.querySelectorAll(".wikitable > tbody > tr:nth-child(2)")
-    // console.log('WINNERS TABLE  - Row[1]:', winnersTableRow[0].innerHTML)
-
-    // const winnersTableYears = document.querySelectorAll(".wikitable > tbody > tr > th > a")
-    // console.log('Number of Years: ', winnersTableYears.length)
-    // winnersTableYears.forEach(function(row) {
-      // const winner = {
-      //   year: row.innerHTML,
-      //   date: "",
-      //   hostCity: "",
-      //   winner: "",
-      //   song: "",
-      //   performer: "",
-      //   language: "",
-      //   points: "",
-      //   margin: "",
-      //   runnerUp: "",
-      //    }
-      // winners.push(winner)
-    // })
     
     console.log('Winners: ', winners)
 
