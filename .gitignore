@@ -4,4 +4,5 @@ updated_standalone_node_app/package-lock.json
 updated2_standalone_node_app/package-lock.json
 updated3_standalone_node_app/package-lock.json
 data-scraper/package-lock.json
+app-using-scraper-app/package-lock.json
 node_modules
