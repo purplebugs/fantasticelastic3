@@ -4,10 +4,6 @@ const jsdom = require('jsdom')
 
 const url = 'https://en.wikipedia.org/wiki/List_of_Eurovision_Song_Contest_winners';
 
-const winners = [
-
-]
-
 const handle1956 = function(elements){
   console.log('Need to handle 1956 differently since there were no points, margins or runners up. TODO')
   //console.log(elements[0].innerHTML)
@@ -27,6 +23,11 @@ const handle2020 = function(elements){
 }
 
 function start() {
+
+  return new Promise(function(resolve, reject) {
+
+  let winners = []
+
   fetch(url)
     .then(response => {
       return response.text() // Get plain text from the response
@@ -98,13 +99,15 @@ function start() {
               }
             }
           }
-
       })
-      
-      console.log('Winners: ', winners)
-      return winners
-
+    
+      resolve(winners)
     })
-  }
+  })
+}
+
+// Uncomment to test this file on its own by running: node scraper.js
+// let theWinners = start()
+// theWinners.then((wins) => {console.log(wins)})
 
 exports.start = start;

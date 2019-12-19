@@ -11,6 +11,7 @@ HOST = '0.0.0.0';
 
 // App
 const app = express();
+scraper.start().then(wins => {console.log(wins)}); // WIP Simple outout of object from data scraper tool
 
 // Create node web server
 app.get('/', (req, res) => { 
@@ -19,10 +20,26 @@ app.get('/', (req, res) => {
 Promise.all([
     fetch("http://es01:9200").then((fetchResponses) => {return fetchResponses.json()}), // To be able to access json object properties
     fetch("http://es01:9200/_cat/indices?v").then((fetchResponses) => {return fetchResponses.text()})
+    
+    // TODO send JSON of Eurovision data from scraper.start() to Elasticsearch eg:
+    /*
+    PUT eurovision_winners_book3/_bulk
+    {"index":{"_id":"1"}}
+    {"year": "2019-05-18","country": "Netherlands", "song": "Arcade", "performer": "Duncan Laurence", "language": "English" }
+    {"index":{"_id":"2"}}
+    {"year":"2018-05-12","country":"Israel","song":"Toy","performer":"Netta","language":"English"}
+    { "index" : { "_id" : "3" } }
+    {"year":"2017-05-13","country":"Portugal","song":"Amar pelos dois","performer":"Salvador Sobral","language":"Portugese"}
+    ... etc ...
+    */
+
 ]).then((bodies) => {
     res.send(
+
+        // Output responses from fetch commands
         bodies[0].name + // Able to access json object properties
-        bodies[1] + "Test123" + scraper.start() ) // This is text TODO + scraper.start() to try out data scraper
+        bodies[1]); // This is text
+
 }).catch((error) => {res.send(error)})
 
 });
